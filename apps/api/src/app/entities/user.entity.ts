@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { environment } from '../../environments/environment'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class User {
