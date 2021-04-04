@@ -131,3 +131,24 @@ summary {
   width: 16px;
   margin-right: 4px;
 }
+
+nav {
+  position: sticky;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 1em;
+
+  a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: #000;
+    color: #fff;
+    padding: 0.5em 0;
+
+    &:nth-of-type(2) {
+      border-left: 1px solid white;
+      border-right: 1px solid white;
+    }
+  }
+}

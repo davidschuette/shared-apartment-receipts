@@ -1,0 +1,8 @@
+<div *ngFor="let ower of oKeys(data.owes)">
+  <div *ngFor="let payer of oKeys(data.owes[ower])">
+    {{ users[ower].name }} schuldet {{ users[payer].name }}
+    <b>{{
+      data.owes[ower][payer] | currency: 'EUR':'symbol':undefined:'de'
+    }}</b>
+  </div>
+</div>

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Message } from '@nairobi/api-interfaces';
+import { Component } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'nairobi-root',
@@ -8,6 +7,6 @@ import { Message } from '@nairobi/api-interfaces';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  hello$ = this.http.get<Message>('/api/hello');
+  hello$ = this.http.get<any>('/api/hello')
   constructor(private http: HttpClient) {}
 }

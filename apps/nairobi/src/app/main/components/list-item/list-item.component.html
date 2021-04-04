@@ -1,0 +1,13 @@
+<div class="left">
+  <div class="top">
+    <span>{{ receipt.shop }}</span>
+    <span>{{ date | date: 'shortDate' }}</span>
+  </div>
+  <div class="bottom">
+    <span>bezahlt von {{ receipt.payer.name }}</span>
+    <span>betrifft: {{ affected }}</span>
+  </div>
+</div>
+<div class="right">
+  <span>{{ receipt.amount | currency: 'EUR':'symbol':undefined:'de' }}</span>
+</div>

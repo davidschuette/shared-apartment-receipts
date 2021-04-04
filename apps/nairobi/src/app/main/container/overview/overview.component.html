@@ -1,0 +1,7 @@
+<h1>Übersicht</h1>
+<h2>Monatlich</h2>
+<nairobi-list-item
+  *ngFor="let receipt of monthly | async"
+  [receipt]="receipt"
+></nairobi-list-item>
+<nairobi-list [receipts]="receipts | async"></nairobi-list>

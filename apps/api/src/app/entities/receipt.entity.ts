@@ -1,10 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import { User } from './user.entity'
 
 @Entity()
 export class Receipt {
   @PrimaryGeneratedColumn('uuid')
-  id: number
+  id: string
 
   @Column()
   shop: string
@@ -12,12 +21,28 @@ export class Receipt {
   @Column({ type: 'decimal' })
   amount: number
 
-  @Column()
-  date: Date
+  @Column({ type: 'date' })
+  date: string
 
-  @Column()
+  @Column({ type: 'int' })
+  month: number
+
+  @Column({ type: 'int' })
+  year: number
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onUpdate: 'RESTRICT',
+    onDelete: 'RESTRICT',
+  })
   payer: User
 
-  @Column()
+  @ManyToMany(() => User, (user) => user.id, {
+    onUpdate: 'RESTRICT',
+    onDelete: 'RESTRICT',
+  })
+  @JoinTable()
   affected: User[]
+
+  @Column({ default: false })
+  monthly: boolean
 }

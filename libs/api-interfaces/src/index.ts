@@ -1,1 +1,5 @@
-export * from './lib/api-interfaces';
+export * from './lib/ReceiptDto'
+export * from './lib/UserDto'
+export * from './lib/CreateReceiptDto'
+export * from './lib/ReceiptOverviewDto'
+export * from './lib/MonthlyDeductionDto'
