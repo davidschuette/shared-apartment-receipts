@@ -1,0 +1,16 @@
+<span *ngIf="monthlyDeduction">
+  <h2>Verrechnung</h2>
+  <nairobi-dept-display
+    [data]="monthlyDeduction"
+    [users]="users"
+  ></nairobi-dept-display>
+  <h2>Abgerechnete Beträge</h2>
+  <nairobi-list-item
+    *ngFor="let receipt of monthlyDeduction.receipts"
+    [receipt]="receipt"
+  ></nairobi-list-item>
+  <h2>Summe</h2>
+  <div class="sum">
+    {{ monthlyDeduction.total | currency: 'EUR':'symbol':undefined:'de' }}
+  </div>
+</span>

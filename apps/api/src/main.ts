@@ -20,6 +20,7 @@ async function bootstrap() {
 
   const globalPrefix = 'api'
   app.setGlobalPrefix(globalPrefix)
+  app.enableShutdownHooks()
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -39,7 +40,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document)
 
   const port = process.env.PORT || 3333
-  await app.listen(port, () => {
+  await app.listen(port, '0.0.0.0', () => {
     Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix)
   })
 }

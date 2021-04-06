@@ -1,5 +1,21 @@
-import { CreateReceiptDto } from '@nairobi/api-interfaces'
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import {
+  CreateReceiptDto,
+  ReceiptDto,
+  UpdateReceiptDto,
+} from '@nairobi/api-interfaces'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common'
+import { ApiQuery } from '@nestjs/swagger'
 import { ReceiptService } from '../service/receipt.service'
 
 @Controller('receipts')
@@ -12,8 +28,21 @@ export class ReceiptController {
   }
 
   @Get()
-  getAll() {
-    return this.receiptService.findAll()
+  @ApiQuery({ name: 'year', type: 'number', required: false })
+  @ApiQuery({ name: 'month', type: 'number', required: false })
+  @ApiQuery({ name: 'monthly', type: 'boolean', required: false })
+  getAll(
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+    @Query('monthly') monthly?: string,
+  ) {
+    let boolMonthly = undefined
+    if (monthly === 'true') {
+      boolMonthly = true
+    } else if (monthly === 'false') {
+      boolMonthly = false
+    }
+    return this.receiptService.findAll(year, month, boolMonthly)
   }
 
   @Get(':year/month/:month')
@@ -25,7 +54,31 @@ export class ReceiptController {
   }
 
   @Get('overview')
-  getOverviewDate() {
-    return this.receiptService.findReceiptOverview()
+  @ApiQuery({ name: 'year', type: 'number', required: false })
+  @ApiQuery({ name: 'month', type: 'number', required: false })
+  getOverviewDate(
+    @Query('year') year?: string,
+    @Query('month') month?: string,
+  ) {
+    return this.receiptService.findReceiptOverview(year, month)
+  }
+
+  @Get('one/:receiptId')
+  findOne(@Param('receiptId') receiptId: string): Promise<ReceiptDto> {
+    return this.receiptService.findOne(receiptId)
+  }
+
+  @Put('one/:receiptId')
+  update(
+    @Param('receiptId') receiptId: string,
+    @Body() data: UpdateReceiptDto,
+  ): Promise<ReceiptDto> {
+    return this.receiptService.update(receiptId, data)
+  }
+
+  @Delete('one/:receiptId')
+  @HttpCode(204)
+  delete(@Param('receiptId') receiptId: string): Promise<void> {
+    return this.receiptService.delete(receiptId)
   }
 }

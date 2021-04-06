@@ -4,8 +4,6 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { User } from './user.entity'
@@ -31,14 +29,14 @@ export class Receipt {
   year: number
 
   @ManyToOne(() => User, (user) => user.id, {
-    onUpdate: 'RESTRICT',
-    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   })
   payer: User
 
   @ManyToMany(() => User, (user) => user.id, {
-    onUpdate: 'RESTRICT',
-    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   affected: User[]

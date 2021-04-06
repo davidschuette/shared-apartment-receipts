@@ -1,0 +1,11 @@
+label {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 1em 0;
+  font-weight: bold;
+}
+
+div.actions {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+}

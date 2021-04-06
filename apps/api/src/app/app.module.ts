@@ -10,7 +10,7 @@ import { Receipt } from './entities/receipt.entity'
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: environment.database.host,
       port: 5432,
       username: environment.database.user,
       password: environment.database.password,

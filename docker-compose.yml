@@ -1,12 +1,37 @@
 # docker-compose.yml
 version: '3'
+
+networks:
+  nairobi-net:
+    driver: bridge
+
 services:
+  nairobi:
+    build:
+      context: .
+      dockerfile: apps/nairobi/Dockerfile
+    networks:
+      - nairobi-net
+    ports:
+      - 80:80
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    networks:
+      - nairobi-net
+    ports:
+      - 3333:3333
+
   database:
     image: 'postgres' # use latest official postgres version
     environment:
       - POSTGRES_USER=unicorn_user
       - POSTGRES_PASSWORD=magical_password
       - POSTGRES_DB=nairobi
+    networks:
+      - nairobi-net
     ports:
       - 5432:5432
     volumes:
@@ -14,8 +39,10 @@ services:
 
   pgadmin:
     image: 'dpage/pgadmin4'
+    networks:
+      - nairobi-net
     ports:
-      - 80:80
+      - 81:80
     environment:
       - 'PGADMIN_DEFAULT_EMAIL=user@domain.com'
       - 'PGADMIN_DEFAULT_PASSWORD=SuperSecret'

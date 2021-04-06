@@ -47,6 +47,7 @@
             "polyfills": "apps/nairobi/src/polyfills.ts",
             "tsConfig": "apps/nairobi/tsconfig.app.json",
             "aot": true,
+            "allowedCommonJsDependencies": ["class-validator"],
             "assets": [
               "apps/nairobi/src/favicon.ico",
               "apps/nairobi/src/assets"

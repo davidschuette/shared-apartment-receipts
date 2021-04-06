@@ -7,6 +7,7 @@ import {
   CreateReceiptDto,
   ReceiptDto,
   ReceiptOverviewDto,
+  UpdateReceiptDto,
 } from '@nairobi/api-interfaces'
 
 @Injectable()
@@ -18,7 +19,7 @@ export class ReceiptService {
     private readonly userRepo: Repository<User>,
   ) {}
 
-  async create(data: CreateReceiptDto) {
+  async create(data: CreateReceiptDto): Promise<ReceiptDto> {
     const [payer, ...affected] = await Promise.all([
       this.userRepo.findOne(data.payer),
       ...data.affected.map((_) => this.userRepo.findOne(_)),
@@ -27,12 +28,29 @@ export class ReceiptService {
     const year = date.getFullYear()
     const month = date.getMonth()
 
-    return this.receiptRepo.save([{ ...data, payer, affected, year, month }])
+    return this.receiptRepo
+      .save([
+        {
+          ...data,
+          payer,
+          affected,
+          year,
+          month,
+          amount: Math.round((data.amount + Number.EPSILON) * 100) / 100,
+        },
+      ])
+      .then((_) => _[0])
   }
 
-  findAll() {
+  findAll(year?: string, month?: string, monthly?: boolean) {
+    console.log({ year, month, monthly })
     return this.receiptRepo.find({
       relations: ['payer', 'affected'],
+      where: {
+        ...(year !== undefined ? { year } : {}),
+        ...(month !== undefined ? { month } : {}),
+        ...(monthly !== undefined ? { monthly } : {}),
+      },
     })
   }
 
@@ -110,15 +128,24 @@ export class ReceiptService {
     }
   }
 
-  async findReceiptOverview(): Promise<ReceiptOverviewDto> {
+  async findReceiptOverview(
+    year?: string,
+    month?: string,
+  ): Promise<ReceiptOverviewDto> {
     const [receipts, monthlyReceipts] = await Promise.all([
       this.receiptRepo.find({
         relations: ['payer', 'affected'],
-        where: { monthly: false },
+        where: {
+          monthly: false,
+          ...(year !== undefined ? { year } : {}),
+          ...(month !== undefined ? { month } : {}),
+        },
       }),
       this.receiptRepo.find({
         relations: ['payer', 'affected'],
-        where: { monthly: true },
+        where: {
+          monthly: true,
+        },
       }),
     ])
 
@@ -142,5 +169,37 @@ export class ReceiptService {
     }
 
     return { receipts: overviewData, monthlyReceipts }
+  }
+
+  findOne(receiptId: string): Promise<ReceiptDto> {
+    return this.receiptRepo.findOne(receiptId, {
+      relations: ['payer', 'affected'],
+    })
+  }
+
+  async update(receiptId: string, data: UpdateReceiptDto): Promise<ReceiptDto> {
+    const receipt = await this.receiptRepo.findOne(receiptId, {
+      relations: ['payer', 'affected'],
+    })
+    const [payer, ...affected] = await Promise.all([
+      this.userRepo.findOne(data.payer),
+      ...data.affected.map((_) => this.userRepo.findOne(_)),
+    ])
+    const date = new Date(data.date)
+
+    receipt.shop = data.shop
+    receipt.amount = Math.round((data.amount + Number.EPSILON) * 100) / 100
+    receipt.date = data.date
+    receipt.month = date.getMonth()
+    receipt.year = date.getFullYear()
+    receipt.payer = payer
+    receipt.affected = affected
+    receipt.monthly = data.monthly
+
+    return this.receiptRepo.save(receipt)
+  }
+
+  async delete(receiptId: string): Promise<void> {
+    await this.receiptRepo.delete(receiptId)
   }
 }

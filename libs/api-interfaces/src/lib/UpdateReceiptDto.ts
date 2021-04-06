@@ -1,13 +1,13 @@
 import {
+  IsString,
+  IsNumber,
+  IsDateString,
+  IsUUID,
   IsArray,
   IsBoolean,
-  IsDateString,
-  IsNumber,
-  IsString,
-  IsUUID,
 } from 'class-validator'
 
-export class CreateReceiptDto {
+export class UpdateReceiptDto {
   @IsString()
   shop: string
 

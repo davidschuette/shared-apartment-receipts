@@ -1,0 +1,29 @@
+<h1>Kassenbon bearbeiten</h1>
+<form [formGroup]="editForm" (ngSubmit)="submit(editForm)">
+  <label>Gesch&auml;ft<input type="text" formControlName="shop" /></label>
+  <label>Preis<input type="number" formControlName="amount" /></label>
+  <label>Monatlich<input type="checkbox" formControlName="monthly" /></label>
+  <label>Datum<input type="date" formControlName="date" /></label>
+  <label>
+    Bezahlt von
+    <select formControlName="payer">
+      <option *ngFor="let user of users | async" [value]="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </label>
+  <label>
+    Betrifft
+    <select formControlName="affected" multiple>
+      <option *ngFor="let user of users | async" [value]="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </label>
+  <hr />
+  <div class="actions">
+    <input type="submit" value="Speichern" />
+    <div></div>
+    <input type="button" value="Löschen" (click)="delete()" />
+  </div>
+</form>

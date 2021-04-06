@@ -21,19 +21,7 @@
   </select>
   <input type="submit" value="Erstellen" />
 </form>
-<h2>Verrechnung</h2>
-<nairobi-dept-display
-  [data]="monthlyDeduction | async"
+<nairobi-deduction-wrapper
   [users]="users | async"
-></nairobi-dept-display>
-<h2>Abgerechnete Beträge</h2>
-<nairobi-list-item
-  *ngFor="let receipt of (monthlyDeduction | async).receipts"
-  [receipt]="receipt"
-></nairobi-list-item>
-<h2>Summe</h2>
-<div class="sum">
-  {{
-    (monthlyDeduction | async).total | currency: 'EUR':'symbol':undefined:'de'
-  }}
-</div>
+  [monthlyDeduction]="monthlyDeduction | async"
+></nairobi-deduction-wrapper>

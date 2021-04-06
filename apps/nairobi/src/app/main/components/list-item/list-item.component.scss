@@ -39,5 +39,12 @@
 }
 
 .right {
+  display: grid;
+  grid-template-columns: auto 1em;
   font-size: 1.5em;
+  gap: 0.5em;
+
+  img.edit {
+    width: 1em;
+  }
 }

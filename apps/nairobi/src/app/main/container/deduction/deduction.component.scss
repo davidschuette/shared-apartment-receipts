@@ -1,13 +1,11 @@
 form.selection {
+  display: grid;
+  grid-template-columns: 60% 20% 20%;
+  gap: 0.1em;
+
   select,
   input {
     height: 3em;
     box-sizing: border-box;
   }
-}
-
-div.sum {
-  float: right;
-  font-size: 1.5em;
-  font-weight: bold;
 }

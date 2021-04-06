@@ -8,10 +8,15 @@ import { RouterModule, Routes } from '@angular/router'
 import { OverviewComponent } from './main/container/overview/overview.component'
 import { CreateReceiptComponent } from './main/container/create-receipt/create-receipt.component'
 import { DeductionComponent } from './main/container/deduction/deduction.component'
+import { EditReceiptComponent } from './main/container/edit-receipt/edit-receipt.component'
 
 const routes: Routes = [
-  { path: 'create', pathMatch: 'full', component: CreateReceiptComponent },
-  { path: 'deduction', pathMatch: 'full', component: DeductionComponent },
+  { path: 'create', component: CreateReceiptComponent },
+  { path: 'deduction', component: DeductionComponent },
+  {
+    path: 'receipts/:receiptId/edit',
+    component: EditReceiptComponent,
+  },
   { path: '', component: OverviewComponent },
 ]
 

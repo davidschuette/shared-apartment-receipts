@@ -6,9 +6,12 @@ import { ListItemComponent } from './components/list-item/list-item.component'
 import { MonthStringPipe } from './pipes/month-string.pipe'
 import { CreateReceiptComponent } from './container/create-receipt/create-receipt.component'
 import { ReceiptService } from './service/receipt.service'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DeductionComponent } from './container/deduction/deduction.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { DeductionComponent } from './container/deduction/deduction.component'
 import { DeptDisplayComponent } from './components/dept-display/dept-display.component'
+import { DeductionWrapperComponent } from './components/deduction-wrapper/deduction-wrapper.component'
+import { EditReceiptComponent } from './container/edit-receipt/edit-receipt.component'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [
@@ -19,9 +22,16 @@ import { DeptDisplayComponent } from './components/dept-display/dept-display.com
     CreateReceiptComponent,
     DeductionComponent,
     DeptDisplayComponent,
+    DeductionWrapperComponent,
+    EditReceiptComponent,
   ],
   providers: [ReceiptService],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [OverviewComponent, CreateReceiptComponent, DeductionComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  exports: [
+    OverviewComponent,
+    CreateReceiptComponent,
+    DeductionComponent,
+    EditReceiptComponent,
+  ],
 })
 export class MainModule {}

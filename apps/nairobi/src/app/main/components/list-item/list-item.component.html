@@ -10,4 +10,7 @@
 </div>
 <div class="right">
   <span>{{ receipt.amount | currency: 'EUR':'symbol':undefined:'de' }}</span>
+  <a [routerLink]="['receipts', receipt.id, 'edit']">
+    <img class="edit" src="../../../../assets/edit.svg" alt="bearbeiten" />
+  </a>
 </div>
