@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
   monthly: Observable<ReceiptDto[]>
   readonly selectionForm = this.fb.group({
     year: this.fb.control(this.date.getFullYear()),
-    month: this.fb.control(this.date.getMonth()),
+    month: this.fb.control(''),
   })
 
   constructor(
@@ -29,7 +29,6 @@ export class OverviewComponent implements OnInit {
   ) {
     const overview = this.receiptService.findOverviewData(
       this.date.getFullYear().toString(),
-      this.date.getMonth().toString(),
     )
     this.receipts = overview.pipe(map((_) => _.receipts))
     this.monthly = overview.pipe(map((_) => _.monthlyReceipts))
