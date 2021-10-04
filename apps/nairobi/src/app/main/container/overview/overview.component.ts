@@ -20,7 +20,7 @@ export class OverviewComponent implements OnInit {
   monthly: Observable<ReceiptDto[]>
   readonly selectionForm = this.fb.group({
     year: this.fb.control(this.date.getFullYear()),
-    month: this.fb.control(this.date.getMonth()),
+    month: this.fb.control(''),
   })
 
   constructor(
