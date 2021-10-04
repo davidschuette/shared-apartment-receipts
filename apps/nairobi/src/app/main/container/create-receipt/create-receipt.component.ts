@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { CreateReceiptDto, UserDto } from '@nairobi/api-interfaces'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { ReceiptService } from '../../service/receipt.service'
-import { take } from 'rxjs/operators'
-import { Observable, Subscription } from 'rxjs'
-import { UserService } from '../../service/user.service'
 import { Router } from '@angular/router'
+import { UserDto } from '@nairobi/api-interfaces'
+import { Observable, Subscription } from 'rxjs'
+import { ReceiptService } from '../../service/receipt.service'
+import { UserService } from '../../service/user.service'
 
 @Component({
   selector: 'nairobi-create-receipt',
@@ -14,12 +13,15 @@ import { Router } from '@angular/router'
 })
 export class CreateReceiptComponent implements OnInit, OnDestroy {
   readonly createForm = this.fb.group({
-    amount: this.fb.control(0, [Validators.required, Validators.min(0.01)]),
+    amount: this.fb.control(1.5, [Validators.required, Validators.min(0.01)]),
     shop: this.fb.control('', Validators.required),
     monthly: this.fb.control(false, Validators.required),
     payer: this.fb.control(null, Validators.required),
     affected: this.fb.control(null, Validators.required),
-    date: this.fb.control(null, Validators.required),
+    date: this.fb.control(
+      new Date().toJSON().split('T')[0],
+      Validators.required,
+    ),
   })
   readonly users: Observable<UserDto[]>
   private readonly subscription: Subscription = new Subscription()
@@ -47,7 +49,10 @@ export class CreateReceiptComponent implements OnInit, OnDestroy {
 
       this.subscription.add(
         this.receiptService.create(value).subscribe(
-          (data) => this.router.navigate(['/receipts', data.id, 'edit']),
+          (data) => {
+            form.reset()
+            form.enable()
+          },
           (err) => form.enable(),
         ),
       )

@@ -29,7 +29,6 @@ export class OverviewComponent implements OnInit {
   ) {
     const overview = this.receiptService.findOverviewData(
       this.date.getFullYear().toString(),
-      this.date.getMonth().toString(),
     )
     this.receipts = overview.pipe(map((_) => _.receipts))
     this.monthly = overview.pipe(map((_) => _.monthlyReceipts))

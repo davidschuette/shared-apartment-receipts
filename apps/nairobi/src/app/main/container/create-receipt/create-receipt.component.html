@@ -1,6 +1,16 @@
 <h1>Kassenbon eingeben</h1>
 <form [formGroup]="createForm" (ngSubmit)="submit(createForm)">
-  <label>Gesch&auml;ft<input type="text" formControlName="shop" /></label>
+  <label
+    >Gesch&auml;ft<input type="text" list="shops" formControlName="shop"
+  /></label>
+  <datalist id="shops">
+    <option value="EDEKA"></option>
+    <option value="ALDI"></option>
+    <option value="OBI"></option>
+    <option value="LIDL"></option>
+    <option value="PENNY"></option>
+    <option value="IKEA"></option>
+  </datalist>
   <label>Preis<input type="number" formControlName="amount" /></label>
   <label>Monatlich<input type="checkbox" formControlName="monthly" /></label>
   <label>Datum<input type="date" formControlName="date" /></label>
