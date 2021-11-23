@@ -1,7 +1,7 @@
 ##########################
 # Build Stage
 
-FROM node:14-alpine
+FROM node:16-alpine
 
 # RUN apk --no-cache add --virtual builds-deps build-base python git
 
@@ -32,7 +32,7 @@ RUN npm run build -- api --prod
 ##########################
 # Run Stage
 
-FROM node:14-alpine
+FROM node:16-alpine
 
 # RUN apk --no-cache add --virtual builds-deps build-base python git curl
 

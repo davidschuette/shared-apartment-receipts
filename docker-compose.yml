@@ -13,7 +13,7 @@ services:
     networks:
       - nairobi-net
     ports:
-      - 80:80
+      - 2101:80
 
   api:
     build:
@@ -21,8 +21,6 @@ services:
       dockerfile: apps/api/Dockerfile
     networks:
       - nairobi-net
-    ports:
-      - 3333:3333
 
   database:
     image: 'postgres' # use latest official postgres version
@@ -32,20 +30,18 @@ services:
       - POSTGRES_DB=nairobi
     networks:
       - nairobi-net
-    ports:
-      - 5432:5432
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
 
-  pgadmin:
-    image: 'dpage/pgadmin4'
-    networks:
-      - nairobi-net
-    ports:
-      - 81:80
-    environment:
-      - 'PGADMIN_DEFAULT_EMAIL=user@domain.com'
-      - 'PGADMIN_DEFAULT_PASSWORD=SuperSecret'
+  # pgadmin:
+  #   image: 'dpage/pgadmin4'
+  #   networks:
+  #     - nairobi-net
+  #   ports:
+  #     - 81:80
+  #   environment:
+  #     - 'PGADMIN_DEFAULT_EMAIL=user@domain.com'
+  #     - 'PGADMIN_DEFAULT_PASSWORD=SuperSecret'
 
 volumes:
   database-data: # named volumes can be managed easier using docker-compose
