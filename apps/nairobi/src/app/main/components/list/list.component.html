@@ -1,9 +1,9 @@
 <span *ngIf="receipts">
-  <div *ngFor="let year of oKeys(receipts)">
+  <div *ngFor="let year of oKeys(receipts).reverse()">
     <h2>{{ year }}</h2>
-    <div *ngFor="let month of oKeys(receipts[year])">
+    <div *ngFor="let month of oKeys(receipts[year]).reverse()">
       <h3>{{ month | monthString }}</h3>
-      <div *ngFor="let receipt of oKeys(receipts[year][month])">
+      <div *ngFor="let receipt of oKeys(receipts[year][month]).reverse()">
         <nairobi-list-item
           [receipt]="receipts[year][month][receipt]"
         ></nairobi-list-item>
