@@ -1,7 +1,7 @@
 ##########################
 # Build Stage
 
-FROM node:16-alpine
+FROM node:17-alpine
 
 # RUN apk --no-cache add --virtual builds-deps build-base python git
 
