@@ -23,7 +23,7 @@ services:
       - nairobi-net
 
   database:
-    image: 'postgres' # use latest official postgres version
+    image: postgres
     environment:
       - POSTGRES_USER=unicorn_user
       - POSTGRES_PASSWORD=magical_password
@@ -31,7 +31,7 @@ services:
     networks:
       - nairobi-net
     volumes:
-      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+      - database-data:/var/lib/postgresql/data/
 
   # pgadmin:
   #   image: 'dpage/pgadmin4'
@@ -44,4 +44,4 @@ services:
   #     - 'PGADMIN_DEFAULT_PASSWORD=SuperSecret'
 
 volumes:
-  database-data: # named volumes can be managed easier using docker-compose
+  database-data:
