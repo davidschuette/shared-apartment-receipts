@@ -33,7 +33,7 @@ RUN npm run build -- nairobi --prod
 ##########################
 # Run Stage
 
-FROM nginx:1.19-alpine
+FROM nginx:1.21-alpine
 
 WORKDIR /usr/src
 
