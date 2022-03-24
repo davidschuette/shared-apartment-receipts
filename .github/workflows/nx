@@ -1,0 +1,61 @@
+
+  
+name: Build affected apps
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: [ubuntu-latest]
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout [main]
+        with:
+          fetch-depth: 0
+      - uses: actions/cache@v3
+        name: Cache node_modules
+        id: cache-node_modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: npm ci --no-progress --no-audit --prefer-offline
+      - name: Build affected apps
+        run: npx nx affected --target=build --parallel=3
+      # - run: npx nx affected --target=test --parallel=2
+  pr:
+    runs-on: [ubuntu-latest]
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout [pr]
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: actions/cache@v3
+        name: Cache node_modules
+        id: cache-node_modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        if: steps.cache-node_modules.outputs.cache-hit != 'true'
+        run: npm ci --no-progress --no-audit --prefer-offline
+      - name: Build affected apps
+        run: npx nx affected --target=build --parallel=3
+      # - run: npx nx affected --target=test --parallel=2
